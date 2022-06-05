@@ -53,7 +53,7 @@ jobs:
       - name: Install LLVM on Windows
         if: startsWith(matrix.os, 'windows')
         run: |
-          $LLVM_VERSION = ${{ env.LLVM_VERSION }}
+          $LLVM_VERSION = "${{ env.LLVM_VERSION }}"
           $LLVM_PREBUILT_FILE = "llvm-$LLVM_VERSION-${{ matrix.os }}.zip"
           curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvmorg-$LLVM_VERSION/$LLVM_PREBUILT_FILE
           Expand-Archive -Path $LLVM_PREBUILT_FILE -DestinationPath .
