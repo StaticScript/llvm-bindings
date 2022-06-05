@@ -18,14 +18,19 @@ on:
     tags-ignore:
       - '**'
 
+env:
+  LLVM_VERSION: 13.0.1
+
 jobs:
   build:
     name: Node.js ${{ matrix.node }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2019, windows-2022]
-        node: [14, 16, 18]
+#         os: [windows-2019, windows-2022]
+#         node: [14, 16, 18]
+        os: [windows-2022]
+        node: [16]
         exclude:
           - os: ubuntu-18.04
             node: 18
@@ -46,8 +51,9 @@ jobs:
       - name: Install LLVM on Windows
         if: startsWith(matrix.os, 'windows')
         run: |
-          $LLVM_PREBUILT_FILE = "LLVM-13.0.1-win64.zip"
-          curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvmorg-13.0.1/llvm-13.0.1-${{ matrix.os }}.zip -o $LLVM_PREBUILT_FILE
+          $LLVM_PREBUILT_FILE = "LLVM-$LLVM_VERSION-win64.zip"
+          curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvmorg-$LLVM_VERSION/llvm-$LLVM_VERSION-${{ matrix.os }}.zip -o $LLVM_PREBUILT_FILE
+          ls
           Expand-Archive -Path $LLVM_PREBUILT_FILE
           $LLVM_CMAKE_DIR = "$pwd\\LLVM-13.0.1-win64\\LLVM-13.0.1-win64\\lib\\cmake\\llvm"
           npm config set cmake_LLVM_DIR $LLVM_CMAKE_DIR
