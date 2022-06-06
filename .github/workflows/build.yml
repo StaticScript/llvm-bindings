@@ -28,8 +28,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-10.15, macos-11, macos-12, ubuntu-18.04, ubuntu-20.04, ubuntu-22.04, windows-2019, windows-2022 ]
-        node: [ 14, 16, 18 ]
+        os: [ windows-2022 ]
+        node: [ 16 ]
         exclude:
           - os: ubuntu-18.04
             node: 18
@@ -53,6 +53,7 @@ jobs:
       - name: Install LLVM on Windows
         if: startsWith(matrix.os, 'windows')
         run: |
+          choco install ninja
           $LLVM_VERSION = "${{ env.LLVM_VERSION }}"
           $LLVM_PREBUILT_FILE = "llvm-$LLVM_VERSION-${{ matrix.os }}.zip"
           curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvmorg-$LLVM_VERSION/$LLVM_PREBUILT_FILE
